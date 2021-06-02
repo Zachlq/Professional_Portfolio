@@ -1,0 +1,177 @@
+---
+title: "QAnon_Tweet_Analysis"
+author: "Zach Quinn"
+date: "4/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+api_key 
+
+api_key_secret
+
+access_token
+
+access_token_secret
+
+```
+
+```{r}
+
+library(tm)
+library(twitteR)
+library(wordcloud)
+library(wordcloud2)
+library(RColorBrewer)
+library(e1071)
+library(class)
+library(syuzhet)
+
+```
+
+```{r}
+twit.access <- setup_twitter_oauth(api_key, api_key_secret, access_token, access_token_secret)
+```
+```{r}
+q.tweets <- searchTwitter('qanon', since='2021-01-06', n = 10000, lang = 'en')
+```
+
+```{r}
+q.text <- sapply(q.tweets, function(x) x$getText())
+q.text <- iconv(q.text, 'UTF-8', 'ASCII')
+q.corpus <- Corpus(VectorSource(q.text))
+q.term.doc.matrix <- TermDocumentMatrix(q.corpus, control = list(removePunctuation=TRUE, stopwords=c('all', 'like', 'well', 'qanon', stopwords('english')), removeNumbers=TRUE, tolower=TRUE))
+q.term.doc.matrix <- as.matrix(q.term.doc.matrix)
+q.word.freq <- sort(rowSums(q.term.doc.matrix), decreasing=T)
+q.dat.fr <- data.frame(word = names(q.word.freq), freq = q.word.freq)
+```
+
+```{r}
+q.anon.cloud <- wordcloud2(q.dat.fr, size=0.7, color='random-light', backgroundColor = 'grey')
+q.anon.cloud
+```
+```{r}
+q.filt <- filter(q.dat.fr[1:20,])
+q.freq.graph <- ggplot(q.filt, aes(word, freq)) + geom_col(color='black', fill = 'red') + labs(title = 'Words most associated with #QAnon', subtitle = 'With frequency > 230 occurences', caption='Data scraped from Twitter', x = 'Word', y = 'Frequency (Occurrences)') + theme(plot.title = element_text(face='bold', hjust=0.5), plot.subtitle=element_text(hjust=0.5), plot.caption=element_text(face='italic'), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+q.freq.graph
+```
+```{r}
+q.sentiment <- get_nrc_sentiment(q.text)
+q.sentiment.score <- data.frame(colSums(q.sentiment[,]))
+names(q.sentiment.score) <- 'Score'
+q.sentiment.score <- cbind('sentiment'=rownames(q.sentiment.score), q.sentiment.score)
+rownames(q.sentiment.score) <- NULL
+q.sentiment.graph <- ggplot(q.sentiment.score, aes(sentiment, Score)) + geom_bar(aes(fill=sentiment),stat='identity') + labs(title='Sentiment of #QANON Tweets', caption='Data scraped from Twitter', x = 'Sentiment') + theme(legend.position = 'none', axis.text.x=element_text(angle=90, vjust=0.5, hjust=1), plot.title=element_text(hjust=0.5, face='bold'), plot.caption=element_text(face='italic')) + coord_flip()
+q.sentiment.graph
+```
+
+```{r}
+child.tweets <- searchTwitter('save the children', since='2021-01-06', n = 10000, lang = 'en')
+```
+
+```{r}
+child.text <- sapply(child.tweets, function(x) x$getText())
+
+child.text <- iconv(child.text, 'UTF-8', 'ASCII')
+
+child.corpus <- Corpus(VectorSource(child.text))
+
+child.term.doc.mat <- TermDocumentMatrix(child.corpus, control = list(removePunctuation=TRUE, stopwords = c('unicef', 'and', 'are', 'for', 'from', 'have', 'just', 'should', 'that', 'their', 'these', 'what', 'which', 'you', '\U0001f6a8ywarthitkonebagoterrorists', 'the', 'children', 'save', 'they', 'malaria', 'with', 'again', 'didnt', 'every', 'get', 'many', 'most', 'will', 'put', 'people', 'this', stopwords='english'), removeNumbers=TRUE, tolower = TRUE))
+
+child.mat <- as.matrix(child.term.doc.mat)                                    
+
+child.word.freq <- sort(rowSums(child.mat), decreasing = T)
+
+child.dat.fr <- data.frame(word = names(child.word.freq), freq=child.word.freq)
+
+```
+
+```{r}
+findAssocs(child.term.doc.mat, terms=c('organized', 'protest'), corlimit=.25)
+findAssocs(child.term.doc.mat, findFreqTerms(child.term.doc.mat, lowfreq = 50), corlimit=0.25)
+```
+
+
+```{r}
+child.cloud <- wordcloud2(child.dat.fr, size=0.7, color='random-light', backgroundColor = 'grey')
+child.cloud
+```
+
+```{r}
+#child.filt <- filter(child.dat.fr, freq < 74 & freq > 29)
+child.graph <- ggplot(child.filt, aes(word, freq)) + geom_col(color='black', fill = 'purple') + labs(title = 'Words most associated with #SaveTheChildren', subtitle = 'With frequency between 30 and 75 occurrences', caption='Data scraped from Twitter', x = 'Word', y = 'Frequency (Occurrences)') + theme(plot.title = element_text(face='bold', hjust=0.5), plot.subtitle=element_text(hjust=0.5), plot.caption=element_text(face='italic'), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1, face='bold')) + coord_flip()
+child.graph
+```
+```{r}
+child.sentiment <- get_nrc_sentiment(child.text)
+child.sentiment.score <- data.frame(colSums(child.sentiment[,]))
+names(child.sentiment.score) <- 'Score'
+child.sentiment.score <- cbind('sentiment'=rownames(child.sentiment.score), child.sentiment.score)
+rownames(child.sentiment.score) <- NULL
+```
+
+```{r}
+child.sentiment.graph <- ggplot(child.sentiment.score, aes(sentiment, Score)) + geom_bar(aes(fill = sentiment), stat='identity') + theme(legend.position='none', plot.title=element_text(hjust=0.5, face='bold'), plot.subtitle=element_text(hjust=0.5), plot.caption=element_text(face='italic'), axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) +
+  labs(title='Sentiment of #SaveTheChildren Tweets', subtitle='Sentiment based on NRC dictionary', x = 'Sentiment', caption='Data scraped from Twitter') 
+```
+```{r}
+deep.tweets <- searchTwitter('deep state', since='2021-01-06', n = 10000, lang = 'en')
+```
+
+```{r}
+deep.text <- sapply(deep.tweets, function(x) x$getText())
+
+deep.text <- iconv(deep.text, 'UTF-8', 'ASCII')
+
+deep.corpus <- Corpus(VectorSource(deep.text))
+
+deep.term.doc <- TermDocumentMatrix(deep.corpus, control = list(removePunctuation=TRUE, stopwords=c('deep', 'state', 'like', 'will', stopwords(kind='en')), removeNumbers=TRUE, tolower=TRUE))
+
+deep.mat <- as.matrix(deep.term.doc)
+
+deep.word.sum <- sort(rowSums(deep.mat), decreasing = T)
+
+deep.dat.fr <- data.frame(word = names(deep.word.sum), freq=deep.word.sum)
+
+```
+
+```{r}
+findAssocs(deep.term.doc, terms=c('hoax', 'russia'), corlimit=0.25)
+findAssocs(deep.term.doc, terms=findFreqTerms(deep.term.doc, lowfreq = 50), corlimit=0.25)
+```
+
+
+```{r}
+deep.cloud <- wordcloud2(deep.dat.fr, color = 'random-light', backgroundColor = 'grey', size=0.7)
+deep.cloud
+```
+
+```{r}
+depst.filt <- filter(deep.dat.fr, freq < 132 & freq > 66)
+```
+
+
+```{r}
+deep.freq <- ggplot(depst.filt, aes(word, freq)) + geom_bar(stat='identity', fill = 'purple', color='black') + labs(title='Words Associated with Deep State', caption='Data scraped from Twitter', x='Word', y = 'Frequency') + theme(axis.text.x = element_text(angle=90), plot.title=element_text(face='bold', hjust=0.5), plot.caption=element_text(face='italic'))
+deep.freq
+
+```
+
+```{r}
+deep.sentiment <- get_nrc_sentiment(deep.text)
+deep.sentiment.score <- data.frame(colSums(deep.sentiment[,]))
+names(deep.sentiment.score) <- 'Score'
+deep.sentiment.score <- cbind('Sentiment'=rownames(deep.sentiment.score), deep.sentiment.score)
+rownames(deep.sentiment.score) <- NULL 
+```
+
+```{r}
+deep.sentiment.plot <- ggplot(deep.sentiment.score, aes(Sentiment, Score)) + geom_bar(aes(fill=Sentiment), stat='identity') + theme(legend.position='none', axis.text.x = element_text(angle=90), plot.title=element_text(face='bold', hjust=0.5), plot.caption=element_text(face='italic')) + labs(title='Sentiment Scores for Deep State Words', caption='Data scraped from Twitter')
+deep.sentiment.plot
+```
+
