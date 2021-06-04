@@ -1,4 +1,4 @@
-# Read Me 
+# Billionaire SQL Analysis
 
 Despite modernization and economic growth, the gap between those with high net worths and the rest of society continues to grow. 
 The richest 1% of individuals possess as much wealth as 6.9 billion people. 
