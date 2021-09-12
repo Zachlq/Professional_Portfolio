@@ -1,6 +1,6 @@
 # Creating An ETL Pipeline Using Apache Airflow 
 
-#### Please note, this file was created via a virtual machine development environment, so it is unlikely to run in any localized environments upon download. A description of the pipeline's functionality will follow. 
+#### Please note, this file was created via a virtual machine development environment, so it is unlikely to run in any localized environments upon download. A description of the pipeline's functionality will follow in lieu of a user's ability to execute the provided code. 
 
 ## Goal: To gain learning experience with Apache Airflow by constructing and implementing a simple ordering of tasks in Airflow. 
 
