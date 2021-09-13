@@ -10,4 +10,4 @@ Although Apache Airflow provides a streamlined user experience regarding the sch
 
 ## DAG 
 
-Apache Airflow groups and prioritizes tasks as units known as directed acryllic graphs (DAGs). DAGs can be run sequentially or concurrently. When DAGs are executed concurrently, they follow an order of execution delegated by nine user-defined trigger rules. DAGs can be created, instantiated and testedin any virtual environment that supports Python. DAGs and their associated tasks can be tested using the command line interface (CLI) in any IDE or OS terminal. 
+Apache Airflow groups and prioritizes tasks as units known as directed acylic graphs (DAGs). DAGs can be run sequentially or concurrently. When DAGs are executed concurrently, they follow an order of execution delegated by nine user-defined trigger rules. DAGs can be created, instantiated and testedin any virtual environment that supports Python. DAGs and their associated tasks can be tested using the command line interface (CLI) in any IDE or OS terminal. 
