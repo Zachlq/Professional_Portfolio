@@ -110,6 +110,6 @@ WITH artist_info AS (
     AND art_end_date BETWEEN 1600 AND 2000 
     ORDER BY art_begin_date DESC 
 )
--- Select all 9 columns specified in the above WITH block to return 5911 rows.
+-- Select all 9 columns specified in the above WITH block to return 5911 rows out of 200,000 rows in original dataset.
 SELECT * FROM
 artist_info 
