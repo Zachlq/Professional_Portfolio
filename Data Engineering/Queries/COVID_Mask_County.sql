@@ -1,10 +1,10 @@
 WITH mask AS (
     SELECT * EXCEPT(rank) FROM (
     SELECT *
-    , RANK() OVER(PARTITION BY county_fips_code ORDER BY pct_always DESC) AS rank
+    , DENSE_RANK() OVER(PARTITION BY county_fips_code ORDER BY pct_always DESC) AS rank
     FROM 
     (
-        SELECT 
+        SELECT DISTINCT 
         county_fips_code
         ,ROUND(never*100,2) AS pct_never 
         ,ROUND(rarely*100,2) AS pct_rarely
@@ -15,13 +15,16 @@ WITH mask AS (
         `bigquery-public-data.covid19_nyt.mask_use_by_county`
     )
 
-)   WHERE rank=1) SELECT * FROM mask
+)   WHERE rank=1),
 
 us_county AS (
-    SELECT *
+    SELECT *, 
+    DENSE_RANK() OVER(PARTITION BY date ORDER BY deaths DESC) AS rank
     FROM (
         SELECT date 
-        , county 
+        , CASE 
+            WHEN county = 'Unknown' THEN 'Not reported'
+            ELSE county END AS county
         , CASE
              WHEN state_name = 'Alabama' THEN 'AL'
              WHEN state_name = 'Alaska' THEN 'AK'
@@ -73,18 +76,20 @@ us_county AS (
              WHEN state_name = 'West Virginia' THEN 'WV'
              WHEN state_name = 'Wisconsin' THEN 'WI'
              WHEN state_name = 'Wyoming' THEN 'WY'
+             WHEN state_name = 'District of Columbia' THEN 'DC'
         ELSE state_name END AS state_abbrv 
         , county_fips_code 
         , confirmed_cases
         , deaths 
         FROM 
         `bigquery-public-data.covid19_nyt.us_counties`
-        WHERE date >= DATE_SUB(CURRENT_DATE(), date, INTERVAL 1 YEAR)
-    )
-) SELECT state_name FROM us_county 
+        WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
+        AND county_fips_code IS NOT NULL 
+    )) 
 
-
-SELECT * EXCEPT(county_fips_code)
-FROM mask 
-JOIN us_county 
+SELECT DISTINCT * EXCEPT(county_fips_code)
+FROM us_county 
+LEFT JOIN mask
 ON mask.county_fips_code = us_county.county_fips_code 
+ORDER BY rank ASC
+
