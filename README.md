@@ -10,7 +10,7 @@
 
 #### *If you'd like to learn what Mochi's missing out on, feel free to [connect on LinkedIn](https://www.linkedin.com/in/zach-l-quinn/).*
 
-Outside of work, I'm active within the data science community, sharing my technological and career experience with a growing audience of aspiring data professionals on my blog, Pipeline.
+Outside of work, I'm active within the data science community, sharing my technological discoveries and career experience with a growing audience of aspiring data professionals on my blog, Pipeline.
 
 Along with Andreas Martinson, I am also co-founder of [Learning SQL](https://medium.com/learning-sql/latest), a one-stop-shop for SQL learning resources for beginning data professionals. 
 
