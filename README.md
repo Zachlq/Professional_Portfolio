@@ -1,6 +1,4 @@
-# Professional Portfolio
-
-## Hi there! I'm Zach. 
+# Hi there! I'm Zach. 
 
 ![zach_and_mochi_gh](https://github.com/Zachlq/Professional_Portfolio/assets/58344148/ec3f6ee0-04f3-471b-9d56-f4f5e3972aed)
 
