@@ -1,6 +1,8 @@
-# ETL Personal Projects
+# Pipelines
 
 #### Outside of my work at Forbes, I've developed ETL pipelines for my own learning, for tutorials posted on my blog, [Pipeline](https://medium.com/pipeline-a-data-engineering-resource) and to better understand and leverage my personal data.
+
+![Pipeline_Temp_Logo](https://github.com/Zachlq/Professional_Portfolio/assets/58344148/1a9af0af-b0a9-4288-91db-830e61cc0766)
 
 ## Project List
 
