@@ -16,7 +16,7 @@ While earning my M.S. in Data Science, my school required students to create and
 
 As I explained in a blog post, which has the equally humbling and very specific distinction of being the [most-read data engineering story on Medium](https://medium.com/pipeline-a-data-engineering-resource/3-data-science-projects-that-got-me-12-interviews-and-1-that-got-me-in-trouble-f376682b4e21), my portfolio was instrumental in demonstrating my technical ability post-graduation. 
 
-You'll notice that my projects are diverse in subject, approach and source data. To borrow from Google, when it comes to data science project, my motto is: "Don't be ~~evil~~ boring."
+You'll notice that my projects are diverse in subject, approach and source data. To borrow from Google, when it comes to data science projects, my motto is: "Don't be ~~evil~~ boring."
 
 I'm currently re-focusing the scope of this portfolio and updating it with newer work more indicative of my current interests and skills. 
 
