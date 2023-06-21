@@ -15,3 +15,5 @@ The ETL pipelines featured in this portfolio feature extractions of unstructured
 - __Reddit_News__: I created a pipeline to store data related to 9 news-related subreddits. 
 
 - __Rick_and_Morty__: This pipeline fetches data from an open-source GQL (Graph Query Language) API; unlike the other pipelines, this build features pagination to retrieve results.
+
+- __Medium__: This pipe syncs my writer data from the (unofficial) Medium API into my BigQuery project and, finally, makes the data available in Looker. From Looker, I schedule a 5-page report that is emailed to me daily.
