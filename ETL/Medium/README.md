@@ -3,6 +3,8 @@
 A pipeline that syncs data from the (unofficial) Medium API into my BigQuery project. From BigQuery I dashboard insights in Looker Studio. 
 In Looker I schedule daily emails that contain the report contents. 
 
+Note: production code is stored in a [separate repo](https://github.com/Zachlq/medium_etl).
+
 Data from [the Medium API](https://docs.mediumapi.com/) is associated with my [Medium profile](https://medium.com/@zachl-quinn). While Medium's dashboard allows Medium Partners to track 
 views, reads and claps within a 30-day rolling window, the Medium UI lacks granularity when it comes to viewing and accessing data for day-over-day changes.
 Medium typically sends a weekly report of stats via email. However, as a writer, I'd like to have access to both historic and real-time data on a daily basis.
