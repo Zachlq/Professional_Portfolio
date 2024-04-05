@@ -2,7 +2,7 @@
 
 ![zach_and_mochi_gh](https://github.com/Zachlq/Professional_Portfolio/assets/58344148/ec3f6ee0-04f3-471b-9d56-f4f5e3972aed)
 
-#### I'm currently a data engineer at Forbes where I leverage a GCP-based tech stack along with Python, AirFlow & SQL to build data pipelines that yield business insights, generate revenue and help optimize costs for internal stakeholders. 
+#### I'm currently a senior data engineer at Forbes where I leverage a GCP-based tech stack along with Python, AirFlow & SQL to build data pipelines that yield business insights, generate revenue and help optimize costs for internal stakeholders. 
 
 #### As you might be able to tell, none of this impresses my dog, Mochi.
 
